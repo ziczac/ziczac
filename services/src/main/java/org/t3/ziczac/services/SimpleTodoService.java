@@ -17,7 +17,7 @@ public class SimpleTodoService implements TodoService
 {
    Map<String, List<Todo>> cache = new HashMap<String, List<Todo>>();
 
-   public Todo getTodo(String userName, String id) throws TodoException
+   public Todo getTodo(String userName, String id)
    {
       List<Todo> todos = getTodos(userName);
       for (Todo todo : todos)
@@ -30,12 +30,12 @@ public class SimpleTodoService implements TodoService
       return null;
    }
    
-   public List<Todo> getTodos(String userName) throws TodoException
+   public List<Todo> getTodos(String userName)
    {
       return cache.get(userName);
    }
 
-   public void addTodo(String userName, Todo todo) throws TodoException
+   public void addTodo(String userName, Todo todo)
    {
       List<Todo> list = cache.get(userName);
       if (list == null)
@@ -46,18 +46,43 @@ public class SimpleTodoService implements TodoService
       list.add(todo);
    }
 
-   public Collection<Todo> findTodos(String userName, String shortTitle) throws TodoException
+   public Todo removeTodo(String userName, String id)
    {
+      List<Todo> list = cache.get(userName);
+      if (list != null)
+      {
+         Iterator<Todo> iterator = list.iterator();
+         while (iterator.hasNext())
+         {
+            Todo todo = iterator.next();
+            if (todo.id.equals(id))
+            {
+               list.remove(todo);
+               return todo;
+            }
+         }
+      }
+      return null;
+   }
+
+   public Collection<Todo> findTodos(String userName, String shortTitle)
+   {
+      List<Todo> result = new ArrayList<Todo>();
       List<Todo> todos = getTodos(userName);
       Iterator<Todo> iterator = todos.iterator();
       while (iterator.hasNext())
       {
          Todo todo = iterator.next();
-         if (!todo.name.contains(shortTitle))
+         if (todo.name.contains(shortTitle))
          {
-            todos.remove(todos);
+            result.add(todo);
          }
       }
-      return todos;
+      
+      if (result.size() > 0)
+      {
+         return result;
+      }
+      return null;
    }
 }

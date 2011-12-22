@@ -15,4 +15,10 @@ public class Todo
    public Date dueDate;
 
    public int state;
+   
+   public Todo(String name)
+   {
+      this.id = name;
+      this.name = name;
+   }
 }

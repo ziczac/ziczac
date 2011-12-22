@@ -11,6 +11,8 @@ public interface TodoService
 {
    public Todo getTodo(String userName, String id) throws TodoException;
    
+   public Todo removeTodo(String userName, String id) throws TodoException;
+   
    public List<Todo> getTodos(String userName) throws TodoException;
    
    public void addTodo(String userName, Todo todo) throws TodoException;
